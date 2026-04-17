@@ -34,4 +34,6 @@ We bring everything — products, equipment, the whole setup. You don't need to 
 
 Most first-time customers book an initial deep clean (to get everything to baseline) and then move into recurring service from there. But it's not required. If your home is already in good shape, we can start with a standard first visit.
 
+Eco-friendly and non-toxic cleaning products are available on request — just let us know when booking if you have kids, pets, allergies, or chemical sensitivities, and we'll bring the right supplies.
+
 Either way, we'll walk through your space, ask about priorities, and send you a clear quote before you commit to anything.

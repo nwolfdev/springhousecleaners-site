@@ -131,10 +131,10 @@ const inclusions = [
               <div class="relative">
                 <p class="eyebrow text-terra-200 mb-3">Ready to book?</p>
                 <p class="font-display text-2xl leading-tight mb-6">
-                  Get a free quote in 24 hours.
+                  See pricing and schedule in minutes.
                 </p>
                 <a href="/contact/" class="inline-flex items-center gap-2 bg-cream text-moss px-5 py-3 rounded-full text-sm font-medium hover:bg-terra hover:text-cream transition-colors">
-                  Request quote
+                  Book now
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -155,7 +155,7 @@ const inclusions = [
       <h2 class="font-display text-display-sm lg:text-display-md text-moss mb-12">
         Other ways we can help.
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {otherServices.map(s => (
           <a href={`/services/${s.slug}/`} class="group block p-6 bg-cream border border-moss/10 hover:border-moss/30 hover:-translate-y-0.5 transition-all">
             <div class="w-10 h-10 flex items-center justify-center bg-moss/5 text-moss rounded-full mb-4 group-hover:bg-moss group-hover:text-cream transition-colors">

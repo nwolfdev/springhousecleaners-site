@@ -14,5 +14,9 @@
 /contact /contact/ 301
 /blog /blog/ 301
 
+# Deleted service page (eco-friendly) — redirect to services index
+/nontoxic-cleaning-service /services/ 301
+/nontoxic-cleaning-service/* /services/ 301
+
 # Old page URLs that Google has indexed
 /services-2* /services/ 301

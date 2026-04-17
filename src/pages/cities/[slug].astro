@@ -28,15 +28,15 @@ const otherCities = cities.filter(c => c.slug !== entry.slug).slice(0, 6);
 const cityFAQs = [
   {
     question: `Do you clean homes in ${cityName}, Texas?`,
-    answer: `Yes — ${cityName} is part of our regular Houston-area service zone. We serve residential and commercial customers throughout ${cityName}, including recurring maid service, deep cleaning, move-in/move-out cleaning, office cleaning, and eco-friendly cleaning options.`
+    answer: `Yes — ${cityName} is part of our regular Houston-area service zone. We serve residential and commercial customers throughout ${cityName}, including recurring maid service, deep cleaning, move-in/move-out cleaning, and office cleaning.`
   },
   {
     question: `How much does house cleaning cost in ${cityName}?`,
-    answer: `Pricing depends on home size and the type of service. A typical recurring clean for a 2-3 bedroom home in the ${cityName} area runs $140–$220 per visit. Deep cleans run higher because they take longer. Every customer gets a free, detailed quote before booking — no surprise fees.`
+    answer: `Pricing depends on home size and the type of service. A typical recurring clean for a 2-3 bedroom home in the ${cityName} area runs $140–$220 per visit. Deep cleans run higher because they take longer. You can see exact pricing and book directly through our booking page — no back-and-forth, no surprise fees.`
   },
   {
     question: `What's the best cleaning service in ${cityName}, TX?`,
-    answer: `We're biased, but here's what people tell us: Spring Cleaning stands out in ${cityName} for consistency (same cleaner whenever possible), plant-based products used by default, clear communication, and a real human on the other end of the phone. We maintain a 4.8-star average on Google and keep our team small by design so every ${cityName} home gets the attention it deserves.`
+    answer: `We're biased, but here's what people tell us: Spring Cleaning stands out in ${cityName} for consistency (same cleaner whenever possible), showing up on time every time, clear communication, and a real human on the other end of the phone. We maintain a 4.8-star average on Google and keep our team small by design so every ${cityName} home gets the attention it deserves.`
   },
   {
     question: `Are you licensed and insured to clean in ${cityName}?`,
@@ -44,7 +44,7 @@ const cityFAQs = [
   },
   {
     question: `How do I book a cleaning in ${cityName}?`,
-    answer: `Three ways: call (832) 224-6617, email info@springhousecleaners.com, or fill out the contact form on this site. Most quotes come back within a few hours. First-time ${cityName} customers often start with a deep clean, then switch to recurring service from there.`
+    answer: `The fastest way is to book directly through our booking page — pick your service, see pricing, and schedule in a few minutes. You can also call (832) 224-6617 or email info@springhousecleaners.com. First-time ${cityName} customers often start with a deep clean, then switch to recurring service from there.`
   }
 ];
 
@@ -137,7 +137,7 @@ const serviceSchema = {
           All five services, available locally.
         </h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-moss/10 border border-moss/10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-moss/10 border border-moss/10">
         {services.map(s => (
           <a href={`/services/${s.slug}/`} class="group block bg-cream-50 p-6 lg:p-7 hover:bg-moss hover:text-cream transition-all duration-300">
             <div class="w-10 h-10 flex items-center justify-center bg-moss/5 group-hover:bg-cream/10 rounded-full mb-5 transition-colors">

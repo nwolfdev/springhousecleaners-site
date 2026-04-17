@@ -3,7 +3,7 @@ export const site = {
   name: 'Spring Cleaning',
   legalName: 'Spring Cleaning',
   tagline: 'Houston-area home and office cleaning, done right.',
-  description: 'Top-rated house and office cleaning services in Spring, The Woodlands, Tomball, and surrounding Houston-area cities. Deep cleans, recurring service, move-in/out, and eco-friendly options.',
+  description: 'Top-rated house and office cleaning services in Spring, The Woodlands, Tomball, and surrounding Houston-area cities. Recurring maid service, deep cleans, and move-in/out.',
   url: 'https://springhousecleaners.com',
   email: 'info@springhousecleaners.com',
   phone: '(832) 224-6617',
@@ -55,13 +55,6 @@ export const services = [
     shortTitle: 'Office Cleaning',
     tagline: 'A clean workplace your team and clients will actually notice.',
     icon: 'office'
-  },
-  {
-    slug: 'nontoxic-cleaning-service',
-    title: 'Eco-Friendly Cleaning',
-    shortTitle: 'Green Cleaning',
-    tagline: 'Plant-based products that are safe for kids, pets, and the planet.',
-    icon: 'leaf'
   }
 ];
 

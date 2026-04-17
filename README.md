@@ -2,15 +2,14 @@
 
 Static Astro site for [springhousecleaners.com](https://springhousecleaners.com).
 
-Rebuilt from scratch after the legacy WordPress site was compromised with malware in April 2026. This version has no database, no PHP, no plugins — just static HTML, CSS, and a Cloudflare Pages Function for the contact form.
+Rebuilt from scratch after the legacy WordPress site was compromised with malware in April 2026. This version has no database, no PHP, no plugins — just static HTML, CSS, and a BookingKoala embed for scheduling.
 
 ## Stack
 
 - **Astro 5** — static site generator
 - **Tailwind CSS** — styling
 - **Cloudflare Pages** — hosting (free tier)
-- **Cloudflare Pages Functions** — contact form endpoint (free tier: 100k requests/day)
-- **SendGrid** — transactional email delivery (contact form → info@springhousecleaners.com)
+- **BookingKoala** — handles all quote/booking flow (embedded iframe on `/contact/`)
 
 ## Quick start
 
@@ -37,27 +36,11 @@ Build settings:
 
 Click **Save and Deploy**.
 
-### 3. Set up SendGrid (for contact form)
+### 3. Custom domain & DNS
 
-The contact form submits to `/api/contact`, which is a Cloudflare Pages Function that sends email via SendGrid.
-
-1. In your SendGrid account: **Settings** → **Sender Authentication** → **Authenticate Your Domain**
-2. Add `springhousecleaners.com` as a sending domain → SendGrid will show DNS records to add (CNAMEs for DKIM)
-3. Add those DNS records in Cloudflare DNS (after you've moved DNS to Cloudflare in step 4)
-4. In SendGrid, create an API key with "Mail Send" permission → copy it
-5. In Cloudflare Pages project → **Settings** → **Environment variables** → add:
-   - `SENDGRID_API_KEY` = (your key)
-   - `CONTACT_EMAIL` = `info@springhousecleaners.com`
-   - `FROM_EMAIL` = `noreply@springhousecleaners.com` (or whatever you authenticated)
-6. Redeploy. Contact form now works.
-
-**Swapping email providers later:** The function talks to SendGrid's API directly. To switch to Resend, Mailgun, Postmark, etc., edit `/functions/api/contact.js` and update the API call — roughly 15 lines of code change. No other code touches the email provider.
-
-### 4. Custom domain & DNS
-
-1. In Cloudflare Pages project: **Custom domains** → **Set up a custom domain** → enter `springhousecleaners.com`
+1. In Cloudflare Pages project: **Custom domains** → **Set up a custom domain** → enter `springhousecleaners.com` (and `www.springhousecleaners.com`)
 2. Cloudflare will prompt you to change nameservers at GoDaddy to Cloudflare's nameservers
-3. **Before flipping nameservers**, import these existing DNS records into Cloudflare so Jordan's `info@` email keeps working:
+3. **Before flipping nameservers**, import these existing DNS records into Cloudflare so email keeps working:
 
 ```
 MX   @   aspmx.l.google.com          priority 1
@@ -65,15 +48,14 @@ MX   @   alt1.aspmx.l.google.com     priority 5
 MX   @   alt2.aspmx.l.google.com     priority 5
 MX   @   alt3.aspmx.l.google.com     priority 10
 MX   @   alt4.aspmx.l.google.com     priority 10
-TXT  @   "v=spf1 include:_spf.google.com include:sendgrid.net ~all"
+TXT  @   "v=spf1 include:_spf.google.com ~all"
+CNAME default._domainkey <Google DKIM target>
 ```
 
-The SPF record includes `sendgrid.net` so SendGrid can send mail on behalf of the domain. SendGrid's domain authentication step will also generate DKIM CNAME records — add those when SendGrid shows them to you.
-
-4. Jordan updates nameservers at GoDaddy → Cloudflare's two nameservers
+4. Update nameservers at GoDaddy to the two Cloudflare nameservers
 5. Wait for propagation (usually under an hour)
 6. Cloudflare auto-provisions SSL
-7. Once the new site is confirmed live, cancel SiteGround
+7. Once live, cancel SiteGround
 
 ## Configuration
 
@@ -89,11 +71,20 @@ Edit **`src/config.js`** to update:
 All page content lives in `src/content/` as markdown:
 
 - `src/content/pages/` — privacy policy, terms of service
-- `src/content/services/` — the 5 service pages
+- `src/content/services/` — the 4 service pages
 - `src/content/cities/` — the 13 city pages (data-driven, templates use cityInfo from config)
 - `src/content/blog/` — 31 blog posts
 
 To edit any page, edit the markdown file. No database, no admin panel.
+
+## Booking / Contact
+
+The `/contact/` page embeds the BookingKoala booking widget. Customers see pricing, pick a service, and schedule themselves directly through BookingKoala's hosted flow. No backend needed on our side.
+
+To update the booking embed, edit `src/pages/contact.astro`. Current embed source:
+```
+https://springcleaning.bookingkoala.com/booknow?embed=true
+```
 
 ## Adding a new blog post
 
@@ -119,16 +110,17 @@ Push to GitHub. Cloudflare auto-deploys.
 
 ```
 /
-├── functions/
-│   └── api/
-│       └── contact.js        # Form submission endpoint (Cloudflare Pages Function)
 ├── public/                   # Static assets, served as-is
+│   ├── logo.png              # Full logo with wordmark
+│   ├── logo-mark.png         # Icon-only (used in header)
+│   ├── founders.jpg          # Jordan & Sofia photo
+│   ├── og-image.jpg          # Social sharing image
 │   ├── favicon.svg
 │   ├── robots.txt
 │   ├── _headers              # Cloudflare security + caching headers
 │   └── _redirects            # Old URL fallbacks
 ├── src/
-│   ├── components/           # Reusable UI (Header, Footer, CTA, etc.)
+│   ├── components/           # Reusable UI (Header, Footer, CTA, FAQ, etc.)
 │   ├── layouts/              # Page layouts (Base.astro)
 │   ├── pages/                # Route files → URLs
 │   ├── content/              # Markdown content
@@ -147,6 +139,20 @@ Push to GitHub. Cloudflare auto-deploys.
 - **Text:** `ink` (`#1A1A1A`)
 - **Display font:** Fraunces (variable serif)
 - **Body font:** Geist
+
+## SEO
+
+The site ships with extensive structured data (JSON-LD):
+
+- `HouseholdCleaningService` schema on every page with full business details
+- `Service` schema on each service page
+- `Service` + `AggregateRating` on each city page
+- `FAQPage` with 7 questions on homepage, 5 questions on each city page (strong for AI search / Google rich results)
+- `Review` schema on testimonials (4 real Google reviews)
+- `BreadcrumbList` schema on all interior pages
+- `LocalBusiness` data with address, geo coordinates, opening hours, and service areas
+
+Per-city title and meta descriptions are optimized for local SEO ("House Cleaning Services in [City], TX").
 
 ## Why static instead of WordPress?
 
