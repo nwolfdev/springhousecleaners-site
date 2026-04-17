@@ -6,7 +6,22 @@ export interface Props {
   breadcrumb?: { label: string; href: string }[];
 }
 const { eyebrow, title, description, breadcrumb = [] } = Astro.props;
+
+const breadcrumbSchema = breadcrumb.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumb.map((crumb, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": crumb.label,
+    "item": `https://springhousecleaners.com${crumb.href}`
+  }))
+} : null;
 ---
+
+{breadcrumbSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+)}
 
 <section class="relative pt-12 lg:pt-20 pb-16 lg:pb-20 overflow-hidden border-b border-moss/10">
   <div class="absolute top-0 -right-32 w-96 h-96 rounded-full bg-moss/[0.04] blur-3xl pointer-events-none"></div>

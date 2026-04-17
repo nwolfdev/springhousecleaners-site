@@ -55,20 +55,69 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "HouseholdCleaningService",
+    "@id": site.url + "/#organization",
     "name": site.legalName,
+    "alternateName": "Spring House Cleaners",
     "description": site.description,
     "url": site.url,
     "email": site.email,
-    "areaServed": {
-      "@type": "Place",
-      "name": site.serviceArea
+    "telephone": site.phone,
+    "priceRange": "$$",
+    "image": site.url + "/logo.png",
+    "logo": site.url + "/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Spring",
+      "addressRegion": "TX",
+      "postalCode": "77389",
+      "addressCountry": "US"
     },
-    "founder": site.founders,
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 30.0799,
+      "longitude": -95.4172
+    },
+    "areaServed": [
+      {"@type": "City", "name": "Spring, TX"},
+      {"@type": "City", "name": "The Woodlands, TX"},
+      {"@type": "City", "name": "Tomball, TX"},
+      {"@type": "City", "name": "Conroe, TX"},
+      {"@type": "City", "name": "Cypress, TX"},
+      {"@type": "City", "name": "Humble, TX"},
+      {"@type": "City", "name": "Magnolia, TX"},
+      {"@type": "City", "name": "Montgomery, TX"},
+      {"@type": "City", "name": "New Caney, TX"},
+      {"@type": "City", "name": "Porter, TX"},
+      {"@type": "City", "name": "Willis, TX"}
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Jordan & Sofia"
+    },
     "foundingDate": site.foundingDate,
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    }],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": site.googleRating,
-      "reviewCount": site.googleReviewCount
+      "reviewCount": site.googleReviewCount,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Cleaning Services",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Recurring Maid Service"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Deep Cleaning"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Move-In/Move-Out Cleaning"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Office & Commercial Cleaning"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Eco-Friendly Cleaning"}}
+      ]
     }
   })} />
 </head>

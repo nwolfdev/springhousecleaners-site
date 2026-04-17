@@ -25,6 +25,43 @@ const serviceInfo = services.find(s => s.slug === entry.slug) || {
 
 const otherServices = services.filter(s => s.slug !== entry.slug);
 
+// SEO-optimized title per service
+const seoTitle = `${serviceInfo.title} in Spring, TX | Houston Area`;
+const seoDescription = `${serviceInfo.tagline} Serving Spring, The Woodlands, Tomball, and the greater Houston area since 2023. Free quotes, same-day response.`;
+
+// Service schema for this specific service
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": serviceInfo.title,
+  "name": `${serviceInfo.title} — Spring Cleaning`,
+  "description": serviceInfo.tagline,
+  "provider": {
+    "@type": "HouseholdCleaningService",
+    "name": "Spring Cleaning",
+    "telephone": "(832) 224-6617",
+    "url": "https://springhousecleaners.com"
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Spring, TX"},
+    {"@type": "City", "name": "The Woodlands, TX"},
+    {"@type": "City", "name": "Tomball, TX"},
+    {"@type": "City", "name": "Conroe, TX"},
+    {"@type": "City", "name": "Cypress, TX"}
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": serviceInfo.title,
+    "itemListElement": [{
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": serviceInfo.title
+      }
+    }]
+  }
+};
+
 // Common inclusions per service
 const inclusions = [
   'Dusting all surfaces & furniture',
@@ -39,9 +76,10 @@ const inclusions = [
 ---
 
 <Base 
-  title={serviceInfo.title}
-  description={serviceInfo.tagline}
+  title={seoTitle}
+  description={seoDescription}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
   <PageHero
     eyebrow="Service"
     title={serviceInfo.title}

@@ -128,10 +128,17 @@ import { site } from '../config.js';
             <div class="bg-moss text-cream p-8 lg:p-10 relative overflow-hidden">
               <div class="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-terra/20 blur-3xl"></div>
               <div class="relative">
-                <p class="eyebrow text-terra-200 mb-4">Prefer to email us?</p>
+                <p class="eyebrow text-terra-200 mb-4">Prefer to call?</p>
+                <a 
+                  href={`tel:${site.phoneTel}`}
+                  class="font-display text-3xl lg:text-4xl hover:text-terra-200 transition-colors block"
+                >
+                  {site.phone}
+                </a>
+                <p class="mt-6 eyebrow text-terra-200 mb-3">Or email us</p>
                 <a 
                   href={`mailto:${site.email}`}
-                  class="font-display text-2xl lg:text-3xl hover:text-terra-200 transition-colors break-all"
+                  class="text-cream/90 hover:text-terra-200 transition-colors break-all"
                 >
                   {site.email}
                 </a>

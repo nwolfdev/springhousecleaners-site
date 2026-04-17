@@ -6,7 +6,8 @@ export const site = {
   description: 'Top-rated house and office cleaning services in Spring, The Woodlands, Tomball, and surrounding Houston-area cities. Deep cleans, recurring service, move-in/out, and eco-friendly options.',
   url: 'https://springhousecleaners.com',
   email: 'info@springhousecleaners.com',
-  phone: '', // add when available
+  phone: '(832) 224-6617',
+  phoneTel: '+18322246617', // tel: link format
   hours: 'Mon–Sat 8am–6pm',
   serviceArea: 'Spring, The Woodlands, Tomball, and surrounding Houston-area communities',
   founders: 'Jordan & Sofia',

@@ -4,10 +4,42 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
 import CTA from '../components/CTA.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Icon from '../components/Icon.astro';
 import { services, cities, site } from '../config.js';
+
+const homepageFAQs = [
+  {
+    question: "What cities do you clean in?",
+    answer: "We serve the greater Houston area, including Spring, The Woodlands, Tomball, Conroe, Cypress, Cypress Station, Humble, Magnolia, Montgomery, New Caney, Porter, Willis, and Egypt. If your city is nearby and isn't on the list, send us a message — we occasionally take on homes outside our standard radius."
+  },
+  {
+    question: "How much does a cleaning cost?",
+    answer: "Pricing depends on home size, condition, and the type of service (recurring, deep, or move-in/out). A typical recurring clean for a 2-3 bedroom home in the Houston area runs $140–$220 per visit. We give every customer a free, detailed quote up front — no surprise fees, no charge-per-room tricks, no upsells at the door."
+  },
+  {
+    question: "Do I need to provide cleaning supplies?",
+    answer: "No. We bring everything — plant-based, non-toxic products and all equipment. You don't need to prepare anything. If you prefer we use your specific products (common for customers with chemical sensitivities or newborns), just let us know during the quote."
+  },
+  {
+    question: "Are you licensed and insured?",
+    answer: "Yes. Spring Cleaning is a licensed and insured cleaning company, bonded for both residential and commercial work. Every team member is background-checked before they ever step into a customer's home."
+  },
+  {
+    question: "Will I get the same cleaner every time?",
+    answer: "Whenever possible, yes. We keep our team small specifically so recurring customers see the same faces week after week. The cleaner who learns your home — where your dog's water bowl lives, which bookshelf you'd rather not be touched — is a different experience than rolling a new person through your door every visit."
+  },
+  {
+    question: "What makes Spring Cleaning different from other Houston cleaning services?",
+    answer: "Three things. First, we're small by design — Jordan and Sofia started the company because they couldn't find a reliable cleaner themselves, and we've stayed tight so we don't repeat the mistakes that frustrated them. Second, we use plant-based, non-toxic products by default, not as an upsell. Third, we pick up the phone. No automated scheduling portals, no 'we'll get back to you in 48 hours.' Real humans, real communication."
+  },
+  {
+    question: "How do I get a quote?",
+    answer: "Three ways: call us at (832) 224-6617, email info@springhousecleaners.com, or fill out the form on our contact page. Most quotes come back within a few hours. We don't do high-pressure sales — you'll get a clear number and the freedom to take your time deciding."
+  }
+];
 ---
 
 <Base>
@@ -109,17 +141,22 @@ import { services, cities, site } from '../config.js';
     <div class="container-custom">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
         <div class="lg:col-span-5">
-          <!-- Decorative image placeholder block -->
-          <div class="relative aspect-[4/5] bg-moss overflow-hidden">
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="text-cream/20 font-display text-[12rem] leading-none select-none">S</div>
-            </div>
+          <!-- Founders photo -->
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img 
+              src="/founders.jpg" 
+              alt="Jordan and Sofia, founders of Spring Cleaning" 
+              class="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+            />
+            <!-- Dark gradient for caption legibility -->
+            <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-moss via-moss/70 to-transparent"></div>
+            <!-- Accent glow -->
+            <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-terra/20 blur-3xl mix-blend-overlay"></div>
             <div class="absolute bottom-6 left-6 right-6 text-cream">
               <p class="eyebrow text-terra-200 mb-3">Meet the founders</p>
               <p class="font-display text-3xl leading-tight">Jordan & Sofia</p>
             </div>
-            <!-- Subtle accent -->
-            <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-terra/20 blur-3xl"></div>
           </div>
         </div>
         <div class="lg:col-span-7">
@@ -186,6 +223,14 @@ import { services, cities, site } from '../config.js';
       </div>
     </div>
   </section>
+
+  <!-- FAQ - critical for AI search + rich snippets -->
+  <FAQ 
+    eyebrow="Common questions"
+    title="What people ask before booking."
+    description="The questions we get most often from new customers. Still have something to ask? Call us at (832) 224-6617 — we actually pick up."
+    items={homepageFAQs}
+  />
 
   <!-- CTA -->
   <CTA />

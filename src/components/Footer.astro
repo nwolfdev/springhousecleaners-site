@@ -7,15 +7,25 @@ import { site, services, cities, primaryNav } from '../config.js';
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
       <!-- Brand column -->
       <div class="lg:col-span-5">
-        <div class="flex items-baseline gap-2 mb-5">
-          <span class="font-display text-3xl font-semibold">Spring</span>
-          <span class="text-xs font-medium tracking-[0.2em] uppercase text-terra-200">Cleaning</span>
+        <div class="bg-cream inline-flex p-3 rounded-lg mb-6">
+          <img 
+            src="/logo.png" 
+            alt="Spring Cleaning" 
+            class="h-16 w-auto"
+            width="64"
+            height="64"
+          />
         </div>
         <p class="text-cream/75 text-lg max-w-md leading-relaxed font-display italic">
           "A home, made to feel like one again."
         </p>
         <div class="mt-10 space-y-2 text-sm text-cream/70">
           <p>{site.serviceArea}</p>
+          <p>
+            <a href={`tel:${site.phoneTel}`} class="hover:text-terra-200 transition-colors">
+              {site.phone}
+            </a>
+          </p>
           <p>
             <a href={`mailto:${site.email}`} class="hover:text-terra-200 transition-colors">
               {site.email}

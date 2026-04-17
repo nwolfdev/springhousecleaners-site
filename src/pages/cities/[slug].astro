@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import FAQ from '../../components/FAQ.astro';
 import CTA from '../../components/CTA.astro';
 import Icon from '../../components/Icon.astro';
 import { cities, services } from '../../config.js';
@@ -18,13 +19,62 @@ const { entry } = Astro.props;
 const cityInfo = cities.find(c => c.slug === entry.slug);
 const cityName = cityInfo?.name || entry.data.city;
 
-const description = `Professional home and office cleaning services in ${cityName}, Texas. Recurring maid service, deep cleaning, move-in/out, and eco-friendly options from a local, trusted team.`;
+const seoTitle = `House Cleaning Services in ${cityName}, TX | Spring Cleaning`;
+const description = `Top-rated house and office cleaning services in ${cityName}, Texas. Recurring maid service, deep cleaning, move-in/out, and eco-friendly options. 4.8★ on Google. Free quotes — call (832) 224-6617.`;
 
-// Neighboring cities (exclude current)
 const otherCities = cities.filter(c => c.slug !== entry.slug).slice(0, 6);
+
+// Per-city FAQ (huge for AI search on "best cleaner in [city]" queries)
+const cityFAQs = [
+  {
+    question: `Do you clean homes in ${cityName}, Texas?`,
+    answer: `Yes — ${cityName} is part of our regular Houston-area service zone. We serve residential and commercial customers throughout ${cityName}, including recurring maid service, deep cleaning, move-in/move-out cleaning, office cleaning, and eco-friendly cleaning options.`
+  },
+  {
+    question: `How much does house cleaning cost in ${cityName}?`,
+    answer: `Pricing depends on home size and the type of service. A typical recurring clean for a 2-3 bedroom home in the ${cityName} area runs $140–$220 per visit. Deep cleans run higher because they take longer. Every customer gets a free, detailed quote before booking — no surprise fees.`
+  },
+  {
+    question: `What's the best cleaning service in ${cityName}, TX?`,
+    answer: `We're biased, but here's what people tell us: Spring Cleaning stands out in ${cityName} for consistency (same cleaner whenever possible), plant-based products used by default, clear communication, and a real human on the other end of the phone. We maintain a 4.8-star average on Google and keep our team small by design so every ${cityName} home gets the attention it deserves.`
+  },
+  {
+    question: `Are you licensed and insured to clean in ${cityName}?`,
+    answer: `Yes, Spring Cleaning is fully licensed, bonded, and insured to operate in ${cityName} and throughout Texas. Every cleaner on our team is background-checked before they enter a customer's home.`
+  },
+  {
+    question: `How do I book a cleaning in ${cityName}?`,
+    answer: `Three ways: call (832) 224-6617, email info@springhousecleaners.com, or fill out the contact form on this site. Most quotes come back within a few hours. First-time ${cityName} customers often start with a deep clean, then switch to recurring service from there.`
+  }
+];
+
+// Service schema specific to this city
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "House Cleaning",
+  "name": `House Cleaning Services in ${cityName}, TX`,
+  "description": description,
+  "provider": {
+    "@type": "HouseholdCleaningService",
+    "name": "Spring Cleaning",
+    "telephone": "(832) 224-6617",
+    "url": "https://springhousecleaners.com",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": 4.8,
+      "reviewCount": 17
+    }
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": `${cityName}, TX`
+  }
+};
 ---
 
-<Base title={`Cleaning Services in ${cityName}, TX`} description={description}>
+<Base title={seoTitle} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
   <PageHero
     eyebrow={`${cityName}, Texas`}
     title={`Cleaning services in ${cityName}.`}
@@ -144,6 +194,13 @@ const otherCities = cities.filter(c => c.slug !== entry.slug).slice(0, 6);
       </div>
     </div>
   </section>
+
+  <!-- City-specific FAQ for local SEO + AI search -->
+  <FAQ 
+    eyebrow="Good questions"
+    title={`Cleaning in ${cityName}, answered.`}
+    items={cityFAQs}
+  />
 
   <CTA 
     title={`Ready for a cleaner home in ${cityName}?`}

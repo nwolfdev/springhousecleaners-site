@@ -1,4 +1,6 @@
 ---
+import { site } from '../config.js';
+
 export interface Props {
   eyebrow?: string;
   title?: string;
@@ -43,7 +45,7 @@ const {
             </svg>
           </a>
           <p class="text-sm text-ink/50 lg:text-right">
-            Or email <a href="mailto:info@springhousecleaners.com" class="text-moss hover:text-terra">info@springhousecleaners.com</a>
+            Or call <a href={`tel:${site.phoneTel}`} class="text-moss hover:text-terra font-medium tabular-nums">{site.phone}</a>
           </p>
         </div>
       </div>
