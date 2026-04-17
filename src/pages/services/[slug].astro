@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import Icon from '../../components/Icon.astro';
+import { services, cities } from '../../config.js';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('services');
+  return entries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const serviceInfo = services.find(s => s.slug === entry.slug) || {
+  title: entry.data.title,
+  tagline: '',
+  icon: 'spark' as const
+};
+
+const otherServices = services.filter(s => s.slug !== entry.slug);
+
+// Common inclusions per service
+const inclusions = [
+  'Dusting all surfaces & furniture',
+  'Vacuuming & mopping floors',
+  'Deep-cleaning bathrooms (toilets, showers, tubs)',
+  'Kitchen scrub (counters, sink, stovetop, exterior appliances)',
+  'Bedroom reset (making beds, tidying)',
+  'Trash removal & bin liner replacement',
+  'Wiping mirrors, glass & fixtures',
+  'Attention to high-touch areas for sanitization'
+];
+---
+
+<Base 
+  title={serviceInfo.title}
+  description={serviceInfo.tagline}
+>
+  <PageHero
+    eyebrow="Service"
+    title={serviceInfo.title}
+    description={serviceInfo.tagline}
+    breadcrumb={[
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/services/' },
+      { label: serviceInfo.title, href: `/services/${entry.slug}/` }
+    ]}
+  />
+
+  <section class="py-20 lg:py-28">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Main content -->
+        <div class="lg:col-span-8">
+          <div class="prose-custom max-w-none">
+            <Content />
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 lg:pl-4">
+          <div class="sticky top-24 space-y-8">
+            <!-- What's included -->
+            <div class="bg-cream-200 border border-moss/10 p-8">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 flex items-center justify-center bg-moss text-cream rounded-full">
+                  <Icon name="check" class="w-5 h-5" />
+                </div>
+                <h3 class="font-display text-xl text-moss">Typically includes</h3>
+              </div>
+              <ul class="space-y-2.5 text-sm text-ink/75">
+                {inclusions.map(item => (
+                  <li class="flex gap-2.5 items-start">
+                    <span class="text-terra mt-1.5">—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-6 pt-5 border-t border-moss/10 text-xs text-ink/50 leading-relaxed">
+                Every home is different. Your quote reflects what your space actually needs.
+              </p>
+            </div>
+
+            <!-- CTA box -->
+            <div class="bg-moss text-cream p-8 relative overflow-hidden">
+              <div class="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-terra/20 blur-2xl"></div>
+              <div class="relative">
+                <p class="eyebrow text-terra-200 mb-3">Ready to book?</p>
+                <p class="font-display text-2xl leading-tight mb-6">
+                  Get a free quote in 24 hours.
+                </p>
+                <a href="/contact/" class="inline-flex items-center gap-2 bg-cream text-moss px-5 py-3 rounded-full text-sm font-medium hover:bg-terra hover:text-cream transition-colors">
+                  Request quote
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Other services -->
+  <section class="py-20 lg:py-24 border-t border-moss/10 bg-cream-50">
+    <div class="container-custom">
+      <p class="eyebrow mb-5">Also available</p>
+      <h2 class="font-display text-display-sm lg:text-display-md text-moss mb-12">
+        Other ways we can help.
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {otherServices.map(s => (
+          <a href={`/services/${s.slug}/`} class="group block p-6 bg-cream border border-moss/10 hover:border-moss/30 hover:-translate-y-0.5 transition-all">
+            <div class="w-10 h-10 flex items-center justify-center bg-moss/5 text-moss rounded-full mb-4 group-hover:bg-moss group-hover:text-cream transition-colors">
+              <Icon name={s.icon as any} class="w-5 h-5" />
+            </div>
+            <p class="font-display text-lg text-moss leading-tight mb-2">{s.title}</p>
+            <p class="text-sm text-ink/60 leading-relaxed">{s.tagline}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>

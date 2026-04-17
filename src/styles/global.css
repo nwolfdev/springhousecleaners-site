@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-cream: #FBF8F3;
+    --color-moss: #0D4F4C;
+    --color-terra: #D9593A;
+    --color-ink: #1A1A1A;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv01';
+  }
+
+  ::selection {
+    background: var(--color-moss);
+    color: var(--color-cream);
+  }
+
+  .font-display {
+    font-optical-sizing: auto;
+    font-variation-settings: 'SOFT' 50, 'WONK' 0;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 font-medium text-sm tracking-wide uppercase transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn bg-moss text-cream hover:bg-moss-600 rounded-full;
+  }
+
+  .btn-accent {
+    @apply btn bg-terra text-cream hover:bg-terra-600 rounded-full;
+  }
+
+  .btn-outline {
+    @apply btn border border-moss text-moss hover:bg-moss hover:text-cream rounded-full;
+  }
+
+  .container-custom {
+    @apply max-w-content mx-auto px-6 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply text-xs font-medium tracking-[0.2em] uppercase text-terra;
+  }
+
+  .prose-custom {
+    @apply max-w-prose-lg text-ink/85 leading-relaxed;
+  }
+
+  .prose-custom h2 {
+    @apply font-display text-display-sm text-moss mt-14 mb-5;
+  }
+
+  .prose-custom h3 {
+    @apply font-display text-2xl text-moss mt-10 mb-3;
+  }
+
+  .prose-custom p {
+    @apply mb-5 text-[1.0625rem];
+  }
+
+  .prose-custom ul {
+    @apply mb-6 space-y-2;
+  }
+
+  .prose-custom li {
+    @apply pl-6 relative;
+  }
+
+  .prose-custom li:before {
+    content: '';
+    @apply absolute left-0 top-[0.7em] w-3 h-px bg-terra;
+  }
+
+  .prose-custom a {
+    @apply text-moss underline decoration-terra decoration-2 underline-offset-4 hover:text-terra transition-colors;
+  }
+
+  .prose-custom strong {
+    @apply text-ink font-semibold;
+  }
+
+  /* Subtle grain texture for atmosphere */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+}
