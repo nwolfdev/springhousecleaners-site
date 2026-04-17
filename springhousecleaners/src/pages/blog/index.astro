@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const formatDate = (dateStr: string) => {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+---
+
+<Base title="Journal" description="Tips, guides, and reflections from the Spring Cleaning team — on keeping your home clean, healthy, and stress-free.">
+  <PageHero
+    eyebrow="The journal"
+    title="Notes from the field."
+    description="Cleaning tips, seasonal guides, and the occasional ramble from the team that shows up at your door."
+  />
+
+  <section class="py-20 lg:py-28">
+    <div class="container-custom">
+      <div class="space-y-px bg-moss/10 border border-moss/10">
+        {posts.map((post, i) => (
+          <a 
+            href={`/blog/${post.slug}/`}
+            class="group bg-cream-50 p-8 lg:p-10 hover:bg-cream-200 transition-colors block"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-baseline">
+              <div class="lg:col-span-2">
+                <p class="font-mono text-xs text-ink/50 tabular-nums">
+                  {formatDate(post.data.date)}
+                </p>
+              </div>
+              <div class="lg:col-span-9">
+                <h2 class="font-display text-2xl lg:text-[1.875rem] text-moss leading-tight group-hover:text-terra transition-colors">
+                  {post.data.title}
+                </h2>
+              </div>
+              <div class="lg:col-span-1 flex lg:justify-end">
+                <svg class="w-5 h-5 text-ink/30 group-hover:text-terra group-hover:translate-x-1 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>

@@ -1,0 +1,38 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  tag?: 'h1' | 'h2' | 'h3';
+  size?: 'xl' | 'lg' | 'md';
+}
+const { 
+  eyebrow, 
+  title, 
+  description, 
+  align = 'left',
+  tag: Tag = 'h2',
+  size = 'lg'
+} = Astro.props;
+
+const sizeClasses = {
+  xl: 'text-display-xl',
+  lg: 'text-display-lg',
+  md: 'text-display-md'
+};
+
+const alignClass = align === 'center' ? 'text-center mx-auto' : '';
+---
+
+<div class={`max-w-3xl ${alignClass}`}>
+  {eyebrow && <p class={`eyebrow mb-5`}>{eyebrow}</p>}
+  <Tag class={`font-display ${sizeClasses[size]} text-moss font-normal`}>
+    <slot name="title">{title}</slot>
+  </Tag>
+  {description && (
+    <p class={`mt-6 text-lg lg:text-xl text-ink/70 leading-relaxed max-w-2xl ${align === 'center' ? 'mx-auto' : ''}`}>
+      {description}
+    </p>
+  )}
+</div>

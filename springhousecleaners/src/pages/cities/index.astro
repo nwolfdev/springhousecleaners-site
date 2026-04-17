@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import { cities } from '../../config.js';
+---
+
+<Base 
+  title="Service Area"
+  description="Spring Cleaning serves 13 communities across the greater Houston area, including Spring, The Woodlands, Tomball, Conroe, Cypress, and more."
+>
+  <PageHero
+    eyebrow="Service area"
+    title="Serving the Houston area with care."
+    description="We're a local team. That means we actually know the neighborhoods we serve — and we keep our service radius tight so every home gets the attention it deserves."
+  />
+
+  <section class="py-20 lg:py-28">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-moss/10 border border-moss/10">
+        {cities.map(city => (
+          <a 
+            href={`/cities/${city.slug}/`}
+            class="group block bg-cream-50 p-8 lg:p-10 hover:bg-moss transition-all duration-300 relative overflow-hidden"
+          >
+            <div class="absolute inset-0 flex items-end justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-24 h-24 text-cream/5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+            </div>
+            <div class="relative">
+              <p class="text-xs font-mono text-ink/30 group-hover:text-terra-200 transition-colors mb-3">
+                TX · Houston Metro
+              </p>
+              <h2 class="font-display text-3xl lg:text-4xl text-moss group-hover:text-cream transition-colors leading-tight">
+                {city.name}
+              </h2>
+              <p class="mt-4 text-sm text-ink/60 group-hover:text-cream/80 transition-colors leading-relaxed">
+                {city.tagline}
+              </p>
+              <div class="mt-6 flex items-center gap-2 text-sm font-medium text-moss group-hover:text-terra-200 transition-colors">
+                <span>View service area</span>
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-16 max-w-2xl">
+        <p class="text-ink/70 leading-relaxed">
+          Not sure if we serve your neighborhood? <a href="/contact/" class="text-moss underline decoration-terra decoration-2 underline-offset-4 hover:text-terra">Send us a message</a> — we're happy to check, and we occasionally take on homes outside our standard radius for the right fit.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>

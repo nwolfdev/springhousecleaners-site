@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CTA from '../../components/CTA.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formatDate = (dateStr: string) => {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+// Related posts - most recent 3 excluding this one
+const allPosts = (await getCollection('blog'))
+  .filter(p => p.slug !== post.slug)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+---
+
+<Base title={post.data.title}>
+  <article>
+    <!-- Header -->
+    <header class="pt-16 lg:pt-24 pb-12 lg:pb-16 border-b border-moss/10 relative overflow-hidden">
+      <div class="absolute top-0 -right-32 w-96 h-96 rounded-full bg-moss/[0.04] blur-3xl pointer-events-none"></div>
+
+      <div class="container-custom relative">
+        <nav class="mb-8 flex items-center gap-2 text-xs text-ink/50" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-moss">Home</a>
+          <span class="text-ink/30">/</span>
+          <a href="/blog/" class="hover:text-moss">Journal</a>
+        </nav>
+
+        <div class="max-w-3xl">
+          <p class="font-mono text-xs text-terra tabular-nums mb-6">
+            {formatDate(post.data.date)}
+          </p>
+          <h1 class="font-display text-display-md lg:text-display-lg text-moss leading-[1.02] tracking-tight">
+            {post.data.title}
+          </h1>
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="py-16 lg:py-24">
+      <div class="container-custom">
+        <div class="max-w-prose-lg mx-auto">
+          <div class="prose-custom">
+            <Content />
+          </div>
+
+          <!-- Signature -->
+          <div class="mt-16 pt-8 border-t border-moss/10">
+            <p class="text-sm text-ink/50">
+              Written by the Spring Cleaning team · Spring, Texas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related posts -->
+  {allPosts.length > 0 && (
+    <section class="py-20 lg:py-24 bg-cream-50 border-t border-moss/10">
+      <div class="container-custom">
+        <p class="eyebrow mb-5">Keep reading</p>
+        <h2 class="font-display text-display-sm lg:text-display-md text-moss mb-12">
+          More from the journal.
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {allPosts.map(p => (
+            <a href={`/blog/${p.slug}/`} class="group block">
+              <p class="font-mono text-xs text-ink/50 tabular-nums mb-3">
+                {formatDate(p.data.date)}
+              </p>
+              <h3 class="font-display text-xl lg:text-2xl text-moss group-hover:text-terra transition-colors leading-tight">
+                {p.data.title}
+              </h3>
+              <div class="mt-4 flex items-center gap-1.5 text-xs text-moss">
+                <span>Read</span>
+                <svg class="w-3 h-3 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTA />
+</Base>

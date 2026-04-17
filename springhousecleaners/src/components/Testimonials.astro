@@ -1,0 +1,68 @@
+---
+// Real Google reviews — verbatim from the Google Business profile.
+// First name + last initial follows Google's display convention.
+const testimonials = [
+  {
+    quote: "I hired Spring Cleaning for a first time Deep Clean and Sofia has my house sparkling! She is remarkable, arrived right on time, told me everything she was going to do, was incredibly thorough, and perfectly fine with me interrupting while I worked from home. So pleased and looking forward to next time!",
+    author: "Brittany M.",
+    source: "Google review"
+  },
+  {
+    quote: "Spring Cleaning is professional, always on time, and keeps our venue spotless. Our clients constantly compliment how clean the space is. We highly recommend them and will definitely keep using their services!",
+    author: "La Galleria Venue",
+    source: "Google review"
+  },
+  {
+    quote: "This cleaning company did a 4 hour deep clean for me. I had a great experience. Booking was very smooth. I received follow up texts and email reminders as well as a message when cleaners were on the way to my house, when they arrived, and when they left.",
+    author: "Berenice N.",
+    source: "Google review"
+  },
+  {
+    quote: "Extremely happy with how well they did. I will be a continued customer. Highly recommend!",
+    author: "Clinton M.",
+    source: "Google review"
+  }
+];
+---
+
+<section class="py-24 lg:py-32 bg-moss text-cream relative overflow-hidden">
+  <!-- Decorative type -->
+  <div class="absolute -top-8 -right-12 font-display text-[16rem] leading-none text-cream/[0.03] select-none pointer-events-none">
+    "
+  </div>
+
+  <div class="container-custom relative">
+    <div class="max-w-3xl mb-16">
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-terra-200 mb-5">
+        The Proof
+      </p>
+      <h2 class="font-display text-display-lg font-normal text-cream">
+        Real homes. <span class="italic text-terra-200">Real relief.</span>
+      </h2>
+      <p class="mt-5 text-cream/70 text-lg">
+        Every review below is pulled verbatim from our Google Business profile.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+      {testimonials.map((t) => (
+        <figure class="relative">
+          <div class="flex gap-0.5 mb-5 text-terra-200">
+            {[1,2,3,4,5].map(() => (
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+          </div>
+          <blockquote class="font-display text-xl lg:text-2xl leading-snug text-cream/95">
+            "{t.quote}"
+          </blockquote>
+          <figcaption class="mt-6 flex items-baseline gap-3 text-sm">
+            <span class="font-medium text-cream">{t.author}</span>
+            <span class="text-cream/50">· {t.source}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
